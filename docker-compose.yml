@@ -1,0 +1,28 @@
+version: '2'
+services:
+    # Application container
+    php:
+        build: .
+        restart: unless-stopped
+        volumes:
+            - ./:/app
+        ports:
+            - "80:80"
+            - "443:443"
+        links:
+            - mysql
+        environment:
+            DEBUG: 'true'
+
+#   #Database
+    mysql:
+         image: mysql
+         volumes:
+             - ./db_data:/var/lib/mysql
+             - ./sql:/sql
+         restart: always
+         environment:
+             MYSQL_ROOT_PASSWORD: barchart
+             MYSQL_DATABASE: barchart
+             MYSQL_USER: foo
+             MYSQL_PASSWORD: bar
